@@ -18,6 +18,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ImageToText"
+        android:hardwareAccelerated="true"
+        android:largeHeap="true"
         tools:targetApi="33">
 
         <activity

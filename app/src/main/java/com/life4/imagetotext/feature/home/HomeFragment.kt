@@ -11,6 +11,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.canhub.cropper.CropImageContract
 import com.canhub.cropper.CropImageContractOptions
 import com.canhub.cropper.CropImageOptions
@@ -79,9 +80,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         val textRecognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
         val image = InputImage.fromFilePath(requireContext(), imageUri)
         textRecognizer.process(image).addOnCompleteListener {
-            //binding.tvResult.text = it.result.text
-        }.addOnFailureListener {
-            //binding.tvResult.text = "Something wrong !"
+            viewModel.setTextResult(it.result.text)
+            findNavController().navigate(
+                HomeFragmentDirections.actionHomeFragmentToResultFragment(
+                    it.result.text
+                )
+            )
         }
     }
 
@@ -94,10 +98,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 binding.galleryFab.show()
                 binding.addAlarmActionText.isVisible = true
                 binding.addPersonActionText.isVisible = true
-
-                // Now extend the parent FAB, as
-                // user clicks on the shrinked
-                // parent FAB
                 binding.addFab.extend()
                 true
             } else {
@@ -105,10 +105,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 binding.cameraFab.hide()
                 binding.addAlarmActionText.isVisible = false
                 binding.addPersonActionText.isVisible = false
-
-                // Now extend the parent FAB, as
-                // user clicks on the shrinked
-                // parent FAB
                 binding.addFab.shrink()
                 false
             }

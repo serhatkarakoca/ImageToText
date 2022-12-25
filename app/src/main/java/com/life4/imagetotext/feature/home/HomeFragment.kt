@@ -23,14 +23,12 @@ import com.google.mlkit.vision.text.latin.TextRecognizerOptions
 import com.life4.imagetotext.R
 import com.life4.imagetotext.base.BaseFragment
 import com.life4.imagetotext.databinding.FragmentHomeBinding
+import com.life4.imagetotext.util.saveImageToInternal
 import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
 
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     private val viewModel: HomeViewModel by viewModels()
-    val recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
     private var isAllFabVisible = false
 
 
@@ -46,34 +44,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 )
             )
         )
-    }
-
-    private fun saveImageToInternal(bitmap: Bitmap): String? {
-        val fol = File(requireContext().getExternalFilesDir(null)?.absolutePath.toString())
-        if (!fol.exists())
-            fol.mkdir()
-        val folder = File(fol, "images")
-        if (!folder.exists())
-            folder.mkdir()
-
-        folder.listFiles()?.firstOrNull { it.absolutePath.endsWith(".jpg") }?.delete()
-
-        var fOut: FileOutputStream? = null
-        try {
-            val file = File(folder, "${System.currentTimeMillis()}.jpg")
-            fOut = FileOutputStream(file)
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fOut)
-            return file.absolutePath
-        } catch (e: Exception) {
-            e.printStackTrace()
-        } finally {
-            try {
-                fOut?.close()
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
-        }
-        return null
     }
 
     private fun textRecognizerOCR(imageUri: Uri) {
@@ -141,7 +111,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     private fun startCamera() {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         resultCameraLauncher.launch(intent)
-        //findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToCameraFragment())
     }
 
     private fun openGallery() {
@@ -205,10 +174,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                     if (data?.data != null) {
                         val myData = data.data
                         myData?.let {
-                            var mimeType = ""
-                            val uri = it
-                            val file = File(uri.toString())
-                            startCrop(uri)
+                            startCrop(it)
                         }
                     }
 
@@ -225,7 +191,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 try {
                     if (data?.extras != null) {
                         val myData = data.extras?.get("data") as Bitmap
-                        val path = saveImageToInternal(myData)
+                        requireContext().filesDir.listFiles()
+                            ?.firstOrNull { it.path.endsWith(".jpeg") }?.delete()
+                        val path = saveImageToInternal(requireContext(), myData)
                         if (path != null) {
                             val file = File(path)
                             val uri = Uri.fromFile(file)
@@ -242,7 +210,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     private val cropImage = registerForActivityResult(CropImageContract()) { result ->
         if (result.isSuccessful) {
             result.uriContent?.let {
-                //binding.image.setImageURI(result.uriContent)
                 textRecognizerOCR(it)
             }
         }

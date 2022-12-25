@@ -1,4 +1,4 @@
-package com.life4.imagetotext.home
+package com.life4.imagetotext.feature.home
 
 import android.Manifest
 import android.app.Activity
@@ -7,7 +7,6 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.net.Uri
 import android.provider.MediaStore
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -250,9 +249,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 //binding.image.setImageURI(result.uriContent)
                 textRecognizerOCR(it)
             }
-        } else {
-            Toast.makeText(requireContext(), result.error?.stackTraceToString(), Toast.LENGTH_LONG)
-                .show()
         }
     }
 

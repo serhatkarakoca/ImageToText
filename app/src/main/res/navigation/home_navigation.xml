@@ -7,20 +7,17 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.life4.imagetotext.home.HomeFragment"
+        android:name="com.life4.imagetotext.feature.home.HomeFragment"
         tools:layout="@layout/fragment_home"
-        android:label="HomeFragment" >
+        android:label="HomeFragment">
         <action
-            android:id="@+id/action_homeFragment_to_cameraFragment"
-            app:destination="@id/cameraFragment" />
+            android:id="@+id/action_homeFragment_to_resultFragment"
+            app:destination="@id/resultFragment" />
     </fragment>
+
     <fragment
-        android:id="@+id/starsFragment"
-        android:name="com.life4.imagetotext.StarsFragment"
-        android:label="StarsFragment" />
-    <fragment
-        android:id="@+id/cameraFragment"
-        android:name="com.life4.imagetotext.CameraFragment"
-        tools:layout="@layout/fragment_camera"
-        android:label="CameraFragment" />
+        android:id="@+id/resultFragment"
+        android:name="com.life4.imagetotext.feature.result.ResultFragment"
+        tools:layout="@layout/fragment_result"
+        android:label="ResultFragment" />
 </navigation>

@@ -1,4 +1,4 @@
-package com.life4.imagetotext.home
+package com.life4.imagetotext.feature.home
 
 import androidx.lifecycle.ViewModel
 

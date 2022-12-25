@@ -1,12 +1,7 @@
 package com.life4.imagetotext
 
-import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.AttributeSet
-import android.view.View
-import androidx.core.view.isVisible
-import androidx.navigation.findNavController
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
@@ -32,12 +27,7 @@ class MainActivity : AppCompatActivity() {
         bottomNavigationView.setupWithNavController(navController)
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.cameraFragment -> {
-                    binding.cardBottomNav.isVisible = false
-                }
-                else -> {
-                    binding.cardBottomNav.isVisible = true
-                }
+
             }
         }
 

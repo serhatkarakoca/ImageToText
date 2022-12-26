@@ -11,8 +11,14 @@
         <item name="colorSecondaryVariant">@color/blue_green</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
+        <item name="android:textColorSecondary">@color/secondaryTextColor</item>
+        <item name="android:fontFamily">@font/poppins_regular</item>
 
-        <item name="android:statusBarColor" tools:targetApi="l">@android:color/darker_gray</item>
+        <item name="android:windowBackground">@color/dark_gray</item>
+        <item name="android:statusBarColor">@color/black</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">false</item>
+        <item name="android:navigationBarColor">@color/dark_gray</item>
         <!-- Customize your theme here. -->
         <item name="android:letterSpacing">0</item>
         <item name="textAllCaps">false</item>

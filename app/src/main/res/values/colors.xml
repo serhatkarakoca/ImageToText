@@ -10,4 +10,9 @@
     <color name="blue_green">#0d98ba</color>
     <color name="blue_grotto">#189AB4</color>
     <color name="navy_blue">#05445E</color>
+
+    <color name="primaryTextColor">#000000</color>
+    <color name="secondaryTextColor">#000000</color>
+    <color name="dark_gray">#FF121212</color>
+
 </resources>

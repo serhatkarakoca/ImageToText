@@ -22,6 +22,7 @@ class MainActivity : AppCompatActivity() {
 
         val toolbar = binding.toolbar
         val bottomNavigationView = binding.bottomNav
+        //bottomNavigationView.menu.getItem(1).isVisible = true
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.fragment_nav_host) as NavHostFragment
         val navController = navHostFragment.navController

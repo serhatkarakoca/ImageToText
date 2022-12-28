@@ -35,18 +35,21 @@ class ResultFragment : BaseFragment<FragmentResultBinding>(R.layout.fragment_res
     override fun onCreateView() {
         binding.progressBar.isVisible = false
         binding.etResult.setText(args.textResult)
-        viewModel.insertResultToRoom(
-            ResultModel(
-                content = binding.etResult.text.toString(),
-                date = dateToString()
+        viewModel.lastInsertedResultID = if (args.id != 0L) args.id else null
+        if (args.id == 0L) {
+            viewModel.insertResultToRoom(
+                ResultModel(
+                    content = binding.etResult.text.toString(),
+                    date = dateToString()
+                )
             )
-        )
+        }
 
         binding.etResult.addTextChangedListener {
             job?.cancel()
             job = viewLifecycleOwner.lifecycleScope.launchWhenResumed {
                 binding.progressBar.isVisible = true
-                delay(3000)
+                delay(1200)
                 binding.progressBar.isVisible = false
                 viewModel.updateResultToRoom(
                     ResultModel(
@@ -110,13 +113,13 @@ class ResultFragment : BaseFragment<FragmentResultBinding>(R.layout.fragment_res
         sendIntent.setDataAndType(uri, "application/pdf")
         sendIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         sendIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-        val intent = Intent.createChooser(sendIntent, "Seçim yapınız.")
+        val intent = Intent.createChooser(sendIntent, getString(R.string.choose))
         try {
             startActivity(intent)
         } catch (e: ActivityNotFoundException) {
             Toast.makeText(
                 requireContext(),
-                "PDF görüntüleyici bir uygulamanız bulunamadı.",
+                getString(R.string.nothing_pdf_viewer),
                 Toast.LENGTH_SHORT
             ).show()
         }
@@ -127,7 +130,7 @@ class ResultFragment : BaseFragment<FragmentResultBinding>(R.layout.fragment_res
             requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         val clipData = ClipData.newPlainText("text", args.textResult)
         clipboardManager.setPrimaryClip(clipData)
-        Toast.makeText(requireContext(), "Text copied to clipboard", Toast.LENGTH_SHORT).show()
+        Toast.makeText(requireContext(), getString(R.string.copied_text), Toast.LENGTH_SHORT).show()
     }
 
     private fun sendEmail() {
@@ -182,13 +185,13 @@ class ResultFragment : BaseFragment<FragmentResultBinding>(R.layout.fragment_res
         sendIntent.type = "application/pdf"
         sendIntent.putExtra(Intent.EXTRA_STREAM, uri)
         sendIntent.putExtra(Intent.EXTRA_SUBJECT, "Image To Text")
-        val intent = Intent.createChooser(sendIntent, "Seçim yapınız.")
+        val intent = Intent.createChooser(sendIntent, getString(R.string.choose))
         try {
             startActivity(intent)
         } catch (e: ActivityNotFoundException) {
             Toast.makeText(
                 requireContext(),
-                "PDF görüntüleyici bir uygulamanız bulunamadı.",
+                getString(R.string.nothing_pdf_viewer),
                 Toast.LENGTH_SHORT
             ).show()
         }
@@ -197,7 +200,7 @@ class ResultFragment : BaseFragment<FragmentResultBinding>(R.layout.fragment_res
 
     private fun dateToString(): String {
         val date = Date()
-        val format = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        val format = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
         return format.format(date)
     }
 

@@ -3,26 +3,62 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <variable
+            name="isEmpty"
+            type="Boolean" />
+
+        <import type="android.view.View" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="@{isEmpty != true ? View.VISIBLE:View.GONE}"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:fontFamily="@font/poppins_bold"
+                android:text="@string/history"
+                android:textSize="18sp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_history"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:listitem="@layout/item_history" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
         <LinearLayout
             android:id="@+id/empty_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
+            android:orientation="vertical"
+            android:visibility="@{isEmpty != true ? View.GONE:View.VISIBLE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:orientation="vertical">
+            app:layout_constraintTop_toTopOf="parent">
 
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/lottie_empty"
                 android:layout_width="250dp"
                 android:layout_height="250dp"
+                android:layout_gravity="center"
                 app:lottie_autoPlay="true"
                 app:lottie_loop="true"
-                android:layout_gravity="center"
                 app:lottie_rawRes="@raw/empty_lottie" />
 
             <TextView
@@ -30,7 +66,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppins_bold"
                 android:gravity="center"
-                android:text="Burası boş görünüyor. \n Haydi bir şeyler tarayalım!" />
+                android:text="@string/empty_info" />
         </LinearLayout>
 
         <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
@@ -41,7 +77,7 @@
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             android:backgroundTint="@color/white"
-            android:text="Actions"
+            android:text="@string/actions"
             app:icon="@drawable/ic_add"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
@@ -52,25 +88,25 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
             android:backgroundTint="@color/navy_blue"
-            app:fabSize="normal"
-            tools:visibility="visible"
             android:visibility="gone"
-            app:tint="@android:color/white"
+            app:fabSize="normal"
             app:layout_constraintBottom_toTopOf="@+id/add_fab"
             app:layout_constraintEnd_toEndOf="@+id/add_fab"
-            app:srcCompat="@drawable/ic_camera" />
+            app:srcCompat="@drawable/ic_camera"
+            app:tint="@android:color/white"
+            tools:visibility="visible" />
 
         <TextView
             android:id="@+id/add_alarm_action_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:text="Take a photo"
-            tools:visibility="visible"
+            android:text="@string/take_photo"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@+id/camera_fab"
             app:layout_constraintEnd_toStartOf="@+id/camera_fab"
-            app:layout_constraintTop_toTopOf="@+id/camera_fab" />
+            app:layout_constraintTop_toTopOf="@+id/camera_fab"
+            tools:visibility="visible" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/gallery_fab"
@@ -78,26 +114,26 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
             android:backgroundTint="@color/navy_blue"
-            app:fabSize="normal"
-            tools:visibility="visible"
             android:visibility="gone"
-            app:tint="@android:color/white"
+            app:fabSize="normal"
             app:layout_constraintBottom_toTopOf="@+id/camera_fab"
             app:layout_constraintEnd_toEndOf="@+id/camera_fab"
             app:layout_constraintStart_toStartOf="@+id/camera_fab"
-            app:srcCompat="@drawable/ic_image" />
+            app:srcCompat="@drawable/ic_image"
+            app:tint="@android:color/white"
+            tools:visibility="visible" />
 
         <TextView
             android:id="@+id/add_person_action_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:text="From gallery"
-            tools:visibility="visible"
+            android:text="@string/gallery"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@+id/gallery_fab"
             app:layout_constraintEnd_toStartOf="@+id/gallery_fab"
-            app:layout_constraintTop_toTopOf="@+id/gallery_fab" />
+            app:layout_constraintTop_toTopOf="@+id/gallery_fab"
+            tools:visibility="visible" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

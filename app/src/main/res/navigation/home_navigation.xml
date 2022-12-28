@@ -24,5 +24,9 @@
             android:name="textResult"
             app:argType="string"
             app:nullable="true" />
+        <argument
+            android:name="id"
+            app:argType="long"
+            android:defaultValue="0L" />
     </fragment>
 </navigation>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="history">Geçmiş Aramalar</string>
+    <string name="empty_info">Burası boş görünüyor. \n Haydi bir şeyler tarayalım!</string>
+    <string name="take_photo">Fotoğraf Çek</string>
+    <string name="gallery">Galeriden Seç</string>
+    <string name="share">Paylaş</string>
+    <string name="share_txt_file">Txt Olarak Paylaş</string>
+    <string name="convert_to_pdf">Pdf\'e Çevir</string>
+    <string name="share_pdf_file">Pdf Olarak Paylaş</string>
+    <string name="result">Sonuç</string>
+    <string name="warning">Uyarı</string>
+    <string name="want_to_remove">Bu öğeyi silmek istediğine emin misin ?</string>
+    <string name="yes">Evet</string>
+    <string name="no">Hayır</string>
+    <string name="allow_permission">Lütfen izinleri veriniz</string>
+    <string name="choose">Seçim yapınız.</string>
+    <string name="copied_text">Metin panoya kopyalandı</string>
+    <string name="nothing_pdf_viewer">PDF görüntüleyici bir uygulamanız bulunamadı.</string>
+    <string name="actions">Eylemler</string>
+    <string name="home">Ana Sayfa</string>
+</resources>

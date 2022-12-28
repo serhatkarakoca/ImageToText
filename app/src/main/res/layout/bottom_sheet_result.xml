@@ -47,7 +47,7 @@
                     app:layout_constraintStart_toEndOf="@id/img_share"
                     app:layout_constraintTop_toTopOf="@id/img_share"
                     app:layout_constraintBottom_toBottomOf="@id/img_share"
-                    android:text="Share"
+                    android:text="@string/share"
                     android:layout_marginStart="16dp" />
 
                 <View
@@ -82,7 +82,7 @@
                     app:layout_constraintStart_toEndOf="@id/img_file"
                     app:layout_constraintTop_toTopOf="@id/img_file"
                     app:layout_constraintBottom_toBottomOf="@id/img_file"
-                    android:text="Share Txt File"
+                    android:text="@string/share_txt_file"
                     android:layout_marginStart="16dp" />
 
                 <View
@@ -117,7 +117,7 @@
                     app:layout_constraintStart_toEndOf="@id/img_pdf"
                     app:layout_constraintTop_toTopOf="@id/img_pdf"
                     app:layout_constraintBottom_toBottomOf="@id/img_pdf"
-                    android:text="Convert To Pdf"
+                    android:text="@string/convert_to_pdf"
                     android:layout_marginStart="16dp" />
 
                 <View
@@ -151,7 +151,7 @@
                     app:layout_constraintStart_toEndOf="@id/img_pdf_"
                     app:layout_constraintTop_toTopOf="@id/img_pdf_"
                     app:layout_constraintBottom_toBottomOf="@id/img_pdf_"
-                    android:text="Share Pdf File"
+                    android:text="@string/share_pdf_file"
                     android:layout_marginStart="16dp" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>

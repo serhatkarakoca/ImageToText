@@ -146,7 +146,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         viewLifecycleOwner.lifecycleScope.launchWhenResumed {
             viewModel.getAllResults().collectLatest {
                 binding.isEmpty = it.isEmpty()
-                historyAdapter.submitList(it)
+                historyAdapter.submitList(it.reversed())
             }
         }
     }

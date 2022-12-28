@@ -63,7 +63,7 @@ dependencies {
     implementation 'androidx.fragment:fragment:1.5.5'
 
     //mlkit
-    implementation 'com.google.android.gms:play-services-mlkit-text-recognition:18.0.2'
+    implementation 'com.google.mlkit:text-recognition:16.0.0-beta6'
 
     // navigation
     implementation "androidx.navigation:navigation-fragment-ktx:2.5.3"

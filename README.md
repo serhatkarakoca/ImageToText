@@ -5,7 +5,7 @@ Convert text from images easily with the Text from Image Conversion App!  The ap
 The app can also convert text in different languages. This way, you can easily convert and understand the text in images while traveling abroad
 
 ## GIF
-<img src="https://user-images.githubusercontent.com/52680778/209973228-b9f2c323-b7af-4685-9300-d4f607f963a7.gif" alt="" width="32%" />  
+<img src="https://user-images.githubusercontent.com/52680778/209993270-fa033dfd-2c6a-4100-ba95-72f4f301fcce.gif" alt="" width="32%" />  
 
 ## Technologies
 
@@ -16,4 +16,3 @@ The app can also convert text in different languages. This way, you can easily c
 - [Room Database](https://developer.android.com/training/data-storage/room)
 - [Coroutines](https://github.com/Kotlin/kotlinx.coroutines)
 - [TextRecognizer](https://developers.google.com/ml-kit/vision/text-recognition/v2)
-

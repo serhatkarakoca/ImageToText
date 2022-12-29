@@ -8,6 +8,7 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.net.Uri
 import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
@@ -21,6 +22,12 @@ import com.canhub.cropper.CropImageContract
 import com.canhub.cropper.CropImageContractOptions
 import com.canhub.cropper.CropImageOptions
 import com.canhub.cropper.CropImageView
+import com.google.android.gms.ads.AdError
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.FullScreenContentCallback
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.interstitial.InterstitialAd
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
 import com.google.mlkit.vision.common.InputImage
@@ -58,6 +65,56 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     private var isAllFabVisible = false
     private var pictureImagePath: String? = null
+    private var mInterstitialAd: InterstitialAd? = null
+
+
+    private fun showAds(callback: () -> Unit) {
+        if (mInterstitialAd != null) {
+            mInterstitialAd?.show(requireActivity())
+            callback.invoke()
+        } else {
+            Log.d("TAG", "The interstitial ad wasn't ready yet.")
+            callback.invoke()
+        }
+    }
+
+    private fun loadAds() {
+        val adRequest = AdRequest.Builder().build()
+
+        InterstitialAd.load(
+            requireContext(),
+            "ca-app-pub-3940256099942544/1033173712",
+            adRequest,
+            object : InterstitialAdLoadCallback() {
+                override fun onAdFailedToLoad(adError: LoadAdError) {
+                    mInterstitialAd = null
+                }
+
+                override fun onAdLoaded(interstitialAd: InterstitialAd) {
+                    mInterstitialAd = interstitialAd
+                }
+            })
+
+        mInterstitialAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
+            override fun onAdClicked() {
+            }
+
+            override fun onAdDismissedFullScreenContent() {
+                mInterstitialAd = null
+            }
+
+            override fun onAdFailedToShowFullScreenContent(p0: AdError) {
+                mInterstitialAd = null
+            }
+
+            override fun onAdImpression() {
+            }
+
+            override fun onAdShowedFullScreenContent() {
+                // Called when ad is shown.
+            }
+        }
+    }
 
     private fun startCrop(imageUri: Uri) {
         cropImage.launch(
@@ -88,24 +145,28 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             }
         }
         val image = InputImage.fromFilePath(requireContext(), imageUri)
-        textRecognizer.process(image).addOnCompleteListener {
-            viewModel.setTextResult(it.result.text)
+        textRecognizer.process(image).addOnCompleteListener { task ->
+            viewModel.setTextResult(task.result.text)
             clearCacheFiles()
-            findNavController().navigate(
-                HomeFragmentDirections.actionHomeFragmentToResultFragment(
-                    it.result.text
+            showAds {
+                findNavController().navigate(
+                    HomeFragmentDirections.actionHomeFragmentToResultFragment(
+                        task.result.text
+                    )
                 )
-            )
+            }
         }
     }
 
     private fun historyClickListener(item: ResultModel) {
-        findNavController().navigate(
-            HomeFragmentDirections.actionHomeFragmentToResultFragment(
-                item.content,
-                item.id
+        showAds {
+            findNavController().navigate(
+                HomeFragmentDirections.actionHomeFragmentToResultFragment(
+                    item.content,
+                    item.id
+                )
             )
-        )
+        }
     }
 
     private fun deleteHistoryItem(itemID: Long) {
@@ -120,6 +181,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     }
 
     override fun onCreateView() {
+        loadAds()
         binding.rvHistory.adapter = historyAdapter
         getHistory()
         binding.addFab.shrink()

@@ -83,7 +83,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
         InterstitialAd.load(
             requireContext(),
-            "ca-app-pub-3940256099942544/1033173712",
+            Constants.INTERSTITIAL_AD,
             adRequest,
             object : InterstitialAdLoadCallback() {
                 override fun onAdFailedToLoad(adError: LoadAdError) {

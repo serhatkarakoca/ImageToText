@@ -9,48 +9,64 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="8dp"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools">
+        android:layout_marginHorizontal="8dp">
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            app:cardCornerRadius="16dp"
             app:cardBackgroundColor="@color/white"
-            app:layout_constraintTop_toTopOf="parent"
-            app:cardUseCompatPadding="true">
+            app:cardCornerRadius="16dp"
+            app:cardUseCompatPadding="true"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.appcompat.widget.LinearLayoutCompat
+            <androidx.coordinatorlayout.widget.CoordinatorLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="12dp"
-                android:orientation="vertical">
+                android:layout_height="match_parent">
 
-                <TextView
+                <ImageView
+                    android:id="@+id/img_more"
+                    android:layout_width="wrap_content"
+                    android:layout_height="32dp"
+                    android:padding="5dp"
+                    android:src="@drawable/ic_baseline_more_vert_24"
+                    android:layout_gravity="end|top"
+                    android:layout_marginTop="8dp" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:ellipsize="end"
-                    android:maxLines="6"
-                    android:text="@{item.content}"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/poppins_medium"
-                    tools:text="@tools:sample/lorem/random" />
+                    android:orientation="vertical"
+                    android:layout_marginEnd="16dp"
+                    android:padding="12dp">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:ellipsize="end"
-                    android:gravity="bottom|end"
-                    android:layout_weight="3"
-                    android:text="@{item.date}"
-                    android:fontFamily="@font/poppins_light"
-                    android:textSize="12sp"
-                    android:layout_gravity="bottom|end"
-                    tools:text="28.12.2022" />
-            </androidx.appcompat.widget.LinearLayoutCompat>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/poppins_medium"
+                        android:maxLines="6"
+                        android:text="@{item.content}"
+                        tools:text="@tools:sample/lorem/random" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="bottom|end"
+                        android:layout_weight="3"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/poppins_light"
+                        android:gravity="bottom|end"
+                        android:text="@{item.date}"
+                        android:textSize="12sp"
+                        tools:text="28.12.2022" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
         </androidx.cardview.widget.CardView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

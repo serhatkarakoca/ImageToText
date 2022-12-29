@@ -7,18 +7,27 @@ import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
+import com.life4.imagetotext.data.Constants
+import com.life4.imagetotext.data.MyPreference
 import com.life4.imagetotext.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+
+    @Inject
+    lateinit var myPreference: MyPreference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+
+        if (myPreference.getInputType().isNullOrEmpty())
+            myPreference.setInputType(Constants.LATIN)
 
         val toolbar = binding.toolbar
         val bottomNavigationView = binding.bottomNav

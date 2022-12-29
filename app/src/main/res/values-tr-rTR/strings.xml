@@ -19,4 +19,8 @@
     <string name="nothing_pdf_viewer">PDF görüntüleyici bir uygulamanız bulunamadı.</string>
     <string name="actions">Eylemler</string>
     <string name="home">Ana Sayfa</string>
+    <string name="latin_default">Latin (Varsayılan)</string>
+    <string name="japanese">Japonca</string>
+    <string name="chinese">Çince</string>
+    <string name="korean">Korece</string>
 </resources>

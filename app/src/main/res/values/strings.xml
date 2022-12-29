@@ -20,4 +20,8 @@
     <string name="nothing_pdf_viewer">Could not find a PDF viewer application.</string>
     <string name="copied_text">Text copied to clipboard</string>
     <string name="home">Home</string>
+    <string name="latin_default">Latin (Default)</string>
+    <string name="japanese">Japanese</string>
+    <string name="chinese">Chinese</string>
+    <string name="korean">Korean</string>
 </resources>

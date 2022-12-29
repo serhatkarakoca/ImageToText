@@ -8,10 +8,12 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.net.Uri
 import android.provider.MediaStore
+import android.view.LayoutInflater
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.core.view.isVisible
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -19,12 +21,19 @@ import com.canhub.cropper.CropImageContract
 import com.canhub.cropper.CropImageContractOptions
 import com.canhub.cropper.CropImageOptions
 import com.canhub.cropper.CropImageView
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.TextRecognition
+import com.google.mlkit.vision.text.chinese.ChineseTextRecognizerOptions
+import com.google.mlkit.vision.text.japanese.JapaneseTextRecognizerOptions
+import com.google.mlkit.vision.text.korean.KoreanTextRecognizerOptions
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions
 import com.life4.imagetotext.R
 import com.life4.imagetotext.base.BaseFragment
+import com.life4.imagetotext.data.Constants
+import com.life4.imagetotext.data.MyPreference
+import com.life4.imagetotext.databinding.BottomSheetTypesBinding
 import com.life4.imagetotext.databinding.FragmentHomeBinding
 import com.life4.imagetotext.model.ResultModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -32,6 +41,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.withContext
 import java.io.File
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
@@ -42,6 +52,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             ::deleteHistoryItem
         )
     }
+
+    @Inject
+    lateinit var myPreference: MyPreference
+
     private var isAllFabVisible = false
     private var pictureImagePath: String? = null
 
@@ -60,7 +74,19 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     }
 
     private fun textRecognizerOCR(imageUri: Uri) {
-        val textRecognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
+        val textRecognizer = when (myPreference.getInputType()) {
+            Constants.LATIN -> TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
+            Constants.JAPANESE -> TextRecognition.getClient(
+                JapaneseTextRecognizerOptions.Builder().build()
+            )
+            Constants.CHINESE -> TextRecognition.getClient(
+                ChineseTextRecognizerOptions.Builder().build()
+            )
+            Constants.KOREAN -> TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
+            else -> {
+                TextRecognition.getClient(KoreanTextRecognizerOptions.Builder().build())
+            }
+        }
         val image = InputImage.fromFilePath(requireContext(), imageUri)
         textRecognizer.process(image).addOnCompleteListener {
             viewModel.setTextResult(it.result.text)
@@ -140,6 +166,61 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                     ).show()
             }
         }
+
+        binding.imgSettings.setOnClickListener {
+            changeInputType()
+        }
+
+    }
+
+    private fun changeInputType() {
+        BottomSheetDialog(requireContext()).apply {
+            val bindingInput = DataBindingUtil.inflate<BottomSheetTypesBinding>(
+                LayoutInflater.from(requireContext()),
+                R.layout.bottom_sheet_types,
+                null,
+                false
+            )
+            when (myPreference.getInputType()) {
+                Constants.LATIN -> bindingInput.imgLatinCheck.isVisible = true
+                Constants.JAPANESE -> bindingInput.imgJapaneseCheck.isVisible = true
+                Constants.CHINESE -> bindingInput.imgChineseCheck.isVisible = true
+                Constants.KOREAN -> bindingInput.imgKoreanCheck.isVisible = true
+            }
+            bindingInput.layoutLatin.setOnClickListener {
+                myPreference.setInputType(Constants.LATIN)
+                bindingInput.imgLatinCheck.isVisible = true
+                bindingInput.imgJapaneseCheck.isVisible = false
+                bindingInput.imgChineseCheck.isVisible = false
+                bindingInput.imgKoreanCheck.isVisible = false
+                dismiss()
+            }
+            bindingInput.layoutJapanese.setOnClickListener {
+                myPreference.setInputType(Constants.JAPANESE)
+                bindingInput.imgLatinCheck.isVisible = false
+                bindingInput.imgJapaneseCheck.isVisible = true
+                bindingInput.imgChineseCheck.isVisible = false
+                bindingInput.imgKoreanCheck.isVisible = false
+                dismiss()
+            }
+            bindingInput.layoutChinese.setOnClickListener {
+                myPreference.setInputType(Constants.CHINESE)
+                bindingInput.imgLatinCheck.isVisible = false
+                bindingInput.imgJapaneseCheck.isVisible = false
+                bindingInput.imgChineseCheck.isVisible = true
+                bindingInput.imgKoreanCheck.isVisible = false
+                dismiss()
+            }
+            bindingInput.layoutKorean.setOnClickListener {
+                myPreference.setInputType(Constants.KOREAN)
+                bindingInput.imgLatinCheck.isVisible = false
+                bindingInput.imgJapaneseCheck.isVisible = false
+                bindingInput.imgChineseCheck.isVisible = false
+                bindingInput.imgKoreanCheck.isVisible = true
+                dismiss()
+            }
+            setContentView(bindingInput.root)
+        }.show()
     }
 
     private fun getHistory() {

@@ -12,7 +12,7 @@ import com.life4.imagetotext.model.ResultModel
 
 class HistoryAdapter(
     private val listener: (ResultModel) -> Unit,
-    private val longClickListener: (Long) -> Unit
+    private val removeClickListener: (Long) -> Unit
 ) :
     ListAdapter<ResultModel, HistoryAdapter.HistoryViewHolder>(DIFF_UTIL) {
 
@@ -27,9 +27,8 @@ class HistoryAdapter(
             binding.root.setOnClickListener {
                 listener(item)
             }
-            binding.root.setOnLongClickListener {
+            binding.imgMore.setOnClickListener {
                 longClickListener(item.id)
-                true
             }
         }
     }
@@ -39,7 +38,7 @@ class HistoryAdapter(
             LayoutInflater.from(parent.context),
             R.layout.item_history, parent, false
         )
-        return HistoryViewHolder(binding, listener, longClickListener)
+        return HistoryViewHolder(binding, listener, removeClickListener)
     }
 
     override fun onBindViewHolder(holder: HistoryViewHolder, position: Int) {

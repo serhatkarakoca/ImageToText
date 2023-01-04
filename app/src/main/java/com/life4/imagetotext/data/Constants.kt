@@ -5,5 +5,5 @@ object Constants {
     const val JAPANESE = "JAPANESE"
     const val CHINESE = "CHINESE"
     const val KOREAN = "KOREAN"
-    const val INTERSTITIAL_AD = "ca-app-pub-3940256099942544/1033173712"
+    const val INTERSTITIAL_AD = "ca-app-pub-2431989182972512/9182705545"
 }

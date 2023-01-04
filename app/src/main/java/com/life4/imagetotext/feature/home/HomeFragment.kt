@@ -10,6 +10,7 @@ import android.net.Uri
 import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
@@ -144,18 +145,25 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 TextRecognition.getClient(KoreanTextRecognizerOptions.Builder().build())
             }
         }
+
         val image = InputImage.fromFilePath(requireContext(), imageUri)
         textRecognizer.process(image).addOnCompleteListener { task ->
-            viewModel.setTextResult(task.result.text)
-            clearCacheFiles()
-            showAds {
-                findNavController().navigate(
-                    HomeFragmentDirections.actionHomeFragmentToResultFragment(
-                        task.result.text
+            if (task.result.text.isNotEmpty()) {
+                viewModel.setTextResult(task.result.text)
+                clearCacheFiles()
+                showAds {
+                    findNavController().navigate(
+                        HomeFragmentDirections.actionHomeFragmentToResultFragment(
+                            task.result.text
+                        )
                     )
-                )
+                }
+            } else {
+                Toast.makeText(requireContext(), getString(R.string.no_result), Toast.LENGTH_SHORT)
+                    .show()
             }
         }
+
     }
 
     private fun historyClickListener(item: ResultModel) {

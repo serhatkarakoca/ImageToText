@@ -24,4 +24,6 @@
     <string name="japanese">Japanese</string>
     <string name="chinese">Chinese</string>
     <string name="korean">Korean</string>
+    <string name="types_title">Select the alphabet you want to scan.</string>
+    <string name="no_result">No results found. Please try again</string>
 </resources>

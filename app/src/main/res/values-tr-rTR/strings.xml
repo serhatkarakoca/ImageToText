@@ -23,4 +23,6 @@
     <string name="japanese">Japonca</string>
     <string name="chinese">Çince</string>
     <string name="korean">Korece</string>
+    <string name="types_title">Taratmak istediğin alfabeyi seç.</string>
+    <string name="no_result">Bir sonuç bulunamadı. Lütfen tekrar deneyiniz</string>
 </resources>

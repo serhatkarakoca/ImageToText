@@ -128,7 +128,7 @@ class ResultFragment : BaseFragment<FragmentResultBinding>(R.layout.fragment_res
     private fun copyAllTextToClipboard() {
         val clipboardManager =
             requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-        val clipData = ClipData.newPlainText("text", args.textResult)
+        val clipData = ClipData.newPlainText("text", binding.etResult.text.toString())
         clipboardManager.setPrimaryClip(clipData)
         Toast.makeText(requireContext(), getString(R.string.copied_text), Toast.LENGTH_SHORT).show()
     }

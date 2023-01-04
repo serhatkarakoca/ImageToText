@@ -30,7 +30,7 @@
                 android:layout_margin="16dp"
                 android:fontFamily="@font/poppins_medium"
                 android:gravity="center"
-                android:text="Select the alphabet you want to scan." />
+                android:text="@string/types_title" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layout_latin"
